@@ -6,7 +6,20 @@ import shutil
 import psutil
 import asyncio
 from time import time
+from flask import Flask
+from threading import Thread
 
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Bot is running!"
+
+def run_flask():
+    app.run(host="0.0.0.0", port=10000)  # Listening port for Render / Docker
+
+# Start Flask in background thread
+Thread(target=run_flask, daemon=True).start()
 from pyleaves import Leaves
 from pyrogram.enums import ParseMode
 from pyrogram import Client, filters
